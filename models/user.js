@@ -13,3 +13,5 @@ const userSchema = new mongoose.Schema({
         type: Number
     }
 })
+
+module.module = mongoose.model('User',userSchema)
