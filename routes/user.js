@@ -7,7 +7,7 @@ const User = require('../models/user')
 router.post('/', async (req, res) => {
     const { name, email, number } = req.body
     try {
-        const user = new User({ name, email, number })
+        const user = new User({name, email, number })
         await user.save()
         res.status(200).json({ message: "user created successfully" })
     } catch (err) {
@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
         res.status(404).json({ err: err.message })
     }
 })
+
 
 
 module.exports = router;

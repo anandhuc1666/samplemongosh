@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 mongoose
     .connect(process.env.MONGODB_URL)
-    .then(() => console.log('connected db'))a
+    .then(() => console.log('connected db'))
         .catch((err) => console.log('server not connected db', err))
 app.use('/users', user)
 app.get('/', (req, res) => {
