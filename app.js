@@ -8,6 +8,9 @@ mongoose
 .then(()=>console.log('connected db'))
 .catch((err)=>console.log('server not connected db',err))
 
+app.get('/',(req,res)=>{
+    res.send('hello, man')
+})
 
 const PORT = process.env.PORT || 3001
 
