@@ -1,8 +1,13 @@
 {
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "init": "^0.1.2",
-    "mongoose": "^8.19.1"
+    "mongoose": "^8.19.3",
+    "nodemon": "^3.1.10"
   }
 }
