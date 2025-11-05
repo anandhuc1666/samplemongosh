@@ -1,4 +1,5 @@
 import User from "../model/userSchema.js";
+import bcrypt, { hash } from "bcrypt";
 
 export const register = async (req, res) => {
   const { name, email, password, number } = req.body;
@@ -10,11 +11,12 @@ export const register = async (req, res) => {
     if (user) {
       return res.status(404).json({ message: "user already exsisited" });
     }
+    const hidPass = await bcrypt.hash(password, 8);
     const newUser = await User.create({
-      name,
-      email,
-      password,
-      number,
+      name: name,
+      email: email,
+      password: hidPass,
+      number: number,
     });
     await newUser.save();
     res.status(200).json({ message: "user register successfully" });
@@ -23,7 +25,6 @@ export const register = async (req, res) => {
     res.status(500).json({ message: "internel server issue" });
   }
 };
-
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -35,12 +36,29 @@ export const login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "email not valide" });
     }
-    if (user.password != password) {
+    const covertPass = await bcrypt.compare(password, user.password);
+    if (!covertPass) {
       return res.status(404).json({ message: "user password is invalid" });
     }
     res.status(200).json({ message: "user login sucessfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "server internel issue" });
+  }
+};
+export const salaryCheck = async (req, res) => {
+  try {
+    const collectall = await User.find();
+    console.log(collectall);
+    const salary = collectall.map((item) => {
+      return {
+        _id: item.name,
+        number: item.number,
+      };
+    });
+    console.log(salary);
+    res.status(200).json({ message: "total", salary });
+  } catch (error) {
+    console.log(error);
   }
 };

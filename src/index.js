@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import route from "./router/userRoute.js"
 
 const app = express()
-
+app.use(express.json())
 dotenv.config()
 
 app.use("/user",route)
