@@ -1,5 +1,6 @@
 import User from "../model/userSchema.js";
 import bcrypt, { hash } from "bcrypt";
+import { getUserToken } from "../util/jwt.js";
 
 export const register = async (req, res) => {
   const { name, email, password, number } = req.body;
@@ -40,12 +41,19 @@ export const login = async (req, res) => {
     if (!covertPass) {
       return res.status(404).json({ message: "user password is invalid" });
     }
-    res.status(200).json({ message: "user login sucessfully" });
+    const userToken = getUserToken(user._id);
+    res.cookie("userToken", userToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    res.status(200).json({ message: "user login sucessfully",userToken });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "server internel issue" });
   }
 };
+
 export const salaryCheck = async (req, res) => {
   try {
     const collectall = await User.find();
