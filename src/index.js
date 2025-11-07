@@ -33,11 +33,5 @@ app.patch("/update/:id", (req, res) => {
   if (password) user.password = password;
   res.json(user);
 });
-app.delete("/delete/:id",async (req, res) => {
-  const { id } = req.params;
-    const deletedUser = await server.findByIdAndDelete(id);
-    res.json({message:deletedUser})
-});
-
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`server is running on ${PORT}`));
